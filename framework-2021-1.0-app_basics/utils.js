@@ -1,1 +1,3 @@
-export function getGenreId(name) {}
+export function getGenreId(name) {
+  
+}
