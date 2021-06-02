@@ -1,22 +1,71 @@
-import { moviesList, genresIds, moviesOfTheDay } from './fixtures';
+import styles from './style.css';
 
 if (module.hot) {
   module.hot.accept();
 }
 
 window.dataStore = {
-  currentMovie: '',
-  currentGenre: '',
+  currentGenreId: '',
+  listOfGenres: '',
+  moviesTop: '',
+  moviesByGenre: {},
+  moviesOfTheDay: {},
+  isDataLoading: false,
+  error: null,
 };
 
-window.renderApp = renderApp;
+function getListOfGenres() {
+  const listOfGenresUrl = `https://api.themoviedb.org/3/genre/movie/list?api_key=${process.env.MOVIEDB_API_KEY}&language=en-US`;
+  return fetch(listOfGenresUrl)
+    .then(response => response.json())
+    .then(data => data);
+}
 
-const setCurrentGenre = function (value) {
-  window.dataStore.currentGenre = value;
-  window.renderApp();
-};
+function getMoviesTop() {
+  const moviesTopUrl = `https://api.themoviedb.org/3/movie/top_rated?api_key=${process.env.MOVIEDB_API_KEY}&language=en-US&page=1`;
+  return fetch(moviesTopUrl)
+    .then(response => response.json())
+    .then(data => data);
+}
 
-renderApp();
+function getMoviesOfTheDay() {
+  const moviesOfTheDayUrl = `https://api.themoviedb.org/3/trending/movie/day?api_key=${process.env.MOVIEDB_API_KEY}`;
+  return fetch(moviesOfTheDayUrl)
+    .then(response => response.json())
+    .then(data => data);
+}
+
+function showMoviesTop() {
+  return `
+  <h3>TOP movies of all time:</h3> 
+  ${getMoviesCards(window.dataStore.moviesTop)}
+  `;
+}
+
+function showMoviesByGenre() {
+  let currentId = window.dataStore.currentGenreId;
+  return `
+  <h3>Movies by genre ${
+    currentId ? window.dataStore.listOfGenres.find(genre => genre.id == currentId).name : ''
+  } :</h3>
+  ${getMoviesCards(window.dataStore.moviesByGenre)}
+  `;
+}
+
+function getMoviesCards(movies) {
+  return `
+    <div class='${styles['moviesTop']}'>
+      ${movies.results
+        .map(
+          movie => `
+        <p> ${movie.title}
+        ${getmoviePoster(movie.poster_path)}</p>
+        `,
+        )
+        .join('')}
+      </div>
+  `;
+}
 
 function renderApp() {
   document.getElementById('app-root').innerHTML = `${App()}`;
@@ -24,59 +73,109 @@ function renderApp() {
 
 function App() {
   return `
-    <div>  
-      ${getMoviesTop()} <br><br>
-      ${MoviesOfTheDay()} <br><br>
-      ${searchByCountryAndYear()} <br><br>
-      ${filterByGenres(window.dataStore.currentGenre)}      
+    <div>
+    ${showfilterByGenre()} <br><br>       
+    ${movieResults()} <br>
     </div>`;
 }
 
-function getMoviesTop() {
-  return `
-  <strong>TOP-100 movies by rating:</strong> 
-    <br>- ${moviesList.results.map(movie => movie.title).join('<br>- ')}
-  `;
+window.renderApp = renderApp;
+window.filter = filter;
+window.showMoviesByGenre = showMoviesByGenre;
+
+filter();
+
+function searchMoviesByGenre(currentGenreId) {
+  const moviesFilteredByCurrentGenre = `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.MOVIEDB_API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=${currentGenreId}&with_watch_monetization_types=flatrate`;
+  fetch(moviesFilteredByCurrentGenre)
+    .then(response => response.json())
+    .then(data => (window.dataStore.moviesByGenre = data));
 }
 
-function searchByCountryAndYear() {
+function showfilterByGenre() {
   return `
-  Search by the country of origin: 
-  <input 
-    type='text' 
-    value='${window.dataStore.currentMovie}'
-    onchange='window.dataStore.currentMovie = this.value; window.renderApp()';
-    />
-    `;
-}
-
-function filterByGenres(setCurrentGenre) {
-  return `
-  <label for='genres'>Filter by genre:</label>
-  <select name='genres' id='genres' 
-    onchange="(${setCurrentGenre})(this.value);"
+  <label for='genres'>
+    Filter by genre:
+  </label>
+  <select 
+    name='genres' 
+    onchange="filter(this.value);"
   >
-  <option value=''>--Please choose a genre--</option>
-  ${genresIds.genres.map(
-    genre => `
-      <option value='${genre.name} id=${genre.id}'>
-      ${genre.name}
+  <option value=''>
+    --Please choose a genre--
+  </option>
+    ${window.dataStore.listOfGenres.map(
+      genre => `
+      <option 
+        value='${genre.id}' 
+      > ${genre.name} 
       </option>
-    
     `,
-  )}
+    )} 
+  </select>
     `;
 }
 
-function MoviesOfTheDay() {
+function movieResults() {
+  const { currentGenreId, isDataLoading, error } = window.dataStore;
+  let content = '';
+  if (!currentGenreId) {
+    content = 'Choose genre from the list';
+  } else {
+    if (isDataLoading) {
+      content = 'Data is loading...';
+    }
+    if (error !== null) {
+      content = error;
+    } else {
+      content = `
+    <div>${showMoviesByGenre()}</div>
+    <div>${showMoviesOfTheDay()}</div>
+    <div>${showMoviesTop()}</div>
+    `;
+    }
+  }
+  return content ? `<div>${content}</div>` : '';
+}
+
+function filter(currentGenreId) {
+  window.dataStore.currentGenreId = currentGenreId;
+  window.dataStore.isDataLoading = true;
+  window.dataStore.error = null;
+  searchMoviesByGenre(currentGenreId);
+  Promise.all([getMoviesTop(), getListOfGenres(), getMoviesOfTheDay()])
+    .then(values => {
+      window.dataStore = {
+        ...window.dataStore,
+        moviesTop: values[0],
+        listOfGenres: values[1].genres,
+        moviesOfTheDay: values[2].results,
+      };
+      window.dataStore.isDataLoading = false;
+    })
+    .catch(error => {
+      window.dataStore.isDataLoading = false;
+      window.dataStore.error = error;
+    })
+    .finally(renderApp);
+}
+
+function getmoviePoster(poster_path) {
+  return `<img src='http://image.tmdb.org/t/p/w500/${poster_path}'></img>`;
+}
+
+function showMoviesOfTheDay() {
   return `
-  <strong>Movies of the day:</strong>
-   <br>
-    &#128516; Comedy: 
-    ${moviesOfTheDay.results.filter(movie => movie.genre_ids.includes(35))[0].title}
-      <br>
-    &#128526; Action: 
-    ${moviesOfTheDay.results.filter(movie => movie.genre_ids.includes(28))[0].title}
-      <br>
-      `;
+  <div>
+    <h3>Movies of the day:</h3>
+      &#128516; Comedy: 
+      ${window.dataStore.moviesOfTheDay.filter(movie => movie.genre_ids.includes(35))[0].title}
+        <br>
+      &#128526; Action: 
+      ${window.dataStore.moviesOfTheDay.filter(movie => movie.genre_ids.includes(28))[0].title}
+        <br>
+      &#129488; Documentary: 
+      ${window.dataStore.moviesOfTheDay.filter(movie => movie.genre_ids.includes(99))[0].title}
+  </div>
+        `;
 }
