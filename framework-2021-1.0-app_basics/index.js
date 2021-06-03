@@ -46,7 +46,7 @@ function showMoviesByGenre() {
   let currentId = window.dataStore.currentGenreId;
   return `
   <h3>Movies by genre ${
-    currentId ? window.dataStore.listOfGenres.find(genre => genre.id == currentId).name : ''
+    currentId ? window.dataStore.listOfGenres.genres.find(genre => genre.id == currentId).name : ''
   } :</h3>
   ${getMoviesCards(window.dataStore.moviesByGenre)}
   `;
@@ -87,7 +87,7 @@ filter();
 
 function searchMoviesByGenre(currentGenreId) {
   const moviesFilteredByCurrentGenre = `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.MOVIEDB_API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=${currentGenreId}&with_watch_monetization_types=flatrate`;
-  fetch(moviesFilteredByCurrentGenre)
+  return fetch(moviesFilteredByCurrentGenre)
     .then(response => response.json())
     .then(data => (window.dataStore.moviesByGenre = data));
 }
@@ -104,7 +104,7 @@ function showfilterByGenre() {
   <option value=''>
     --Please choose a genre--
   </option>
-    ${window.dataStore.listOfGenres.map(
+    ${window.dataStore.listOfGenres.genres.map(
       genre => `
       <option 
         value='${genre.id}' 
@@ -142,14 +142,14 @@ function filter(currentGenreId) {
   window.dataStore.currentGenreId = currentGenreId;
   window.dataStore.isDataLoading = true;
   window.dataStore.error = null;
-  searchMoviesByGenre(currentGenreId);
-  Promise.all([getMoviesTop(), getListOfGenres(), getMoviesOfTheDay()])
+  Promise.all([getMoviesTop(), getListOfGenres(), getMoviesOfTheDay(), searchMoviesByGenre(currentGenreId)])
     .then(values => {
       window.dataStore = {
         ...window.dataStore,
         moviesTop: values[0],
-        listOfGenres: values[1].genres,
-        moviesOfTheDay: values[2].results,
+        listOfGenres: values[1],
+        moviesOfTheDay: values[2],
+        moviesByGenre: values[3]
       };
       window.dataStore.isDataLoading = false;
     })
@@ -161,21 +161,30 @@ function filter(currentGenreId) {
 }
 
 function getmoviePoster(poster_path) {
-  return `<img src='http://image.tmdb.org/t/p/w500/${poster_path}'></img>`;
+  if(poster_path) {
+    return `<img src='http://image.tmdb.org/t/p/w500/${poster_path}'></img>`;
+  }
+  else {
+    return 'without poster';
+  }
 }
 
 function showMoviesOfTheDay() {
+  const COMEDY_GENRE_ID = 35;
+  const ACTION_GENRE_ID = 28;
+  const DOCUMENTARY_GENRE_ID = 99;
+  
   return `
   <div>
     <h3>Movies of the day:</h3>
       &#128516; Comedy: 
-      ${window.dataStore.moviesOfTheDay.filter(movie => movie.genre_ids.includes(35))[0].title}
+      ${window.dataStore.moviesOfTheDay.results.filter(movie => movie.genre_ids.includes(COMEDY_GENRE_ID))[0].title}
         <br>
       &#128526; Action: 
-      ${window.dataStore.moviesOfTheDay.filter(movie => movie.genre_ids.includes(28))[0].title}
+      ${window.dataStore.moviesOfTheDay.results.filter(movie => movie.genre_ids.includes(ACTION_GENRE_ID))[0].title}
         <br>
       &#129488; Documentary: 
-      ${window.dataStore.moviesOfTheDay.filter(movie => movie.genre_ids.includes(99))[0].title}
+      ${window.dataStore.moviesOfTheDay.results.filter(movie => movie.genre_ids.includes(DOCUMENTARY_GENRE_ID))[0].title}
   </div>
         `;
 }
