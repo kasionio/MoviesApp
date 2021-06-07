@@ -1,8 +1,7 @@
-import getMoviesCards from './GetMoviesCards';
-
 /** @jsx createElement */
 /** @jsxFrag createFragment */
 import { createElement, createFragment } from '../framework/element';
+import GetMoviesCards from './GetMoviesCards';
 
 export default function showMoviesByGenre() {
   let currentGenreId = window.dataStore.currentGenreId;
@@ -12,7 +11,7 @@ export default function showMoviesByGenre() {
         Movies by genre{' '}
         {window.dataStore.listOfGenres.find(genre => genre.id == currentGenreId).name} :
       </h2>
-      {getMoviesCards(window.dataStore.moviesByGenre)}
+      {GetMoviesCards(window.dataStore.moviesByGenre)}
     </>
   );
 }

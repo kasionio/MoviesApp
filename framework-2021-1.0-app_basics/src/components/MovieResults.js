@@ -1,12 +1,11 @@
-import showMoviesByGenre from './ShowMoviesByGenre';
-import showMoviesOfTheDay from './ShowMoviesOfTheDay';
-import showMoviesTop from './ShowMoviesTop';
-
 /** @jsx createElement */
 /** @jsxFrag createFragment */
 import { createElement, createFragment } from '../framework/element';
+import ShowMoviesByGenre from './ShowMoviesByGenre';
+import ShowMoviesOfTheDay from './ShowMoviesOfTheDay';
+import ShowMoviesTop from './ShowMoviesTop';
 
-export default function movieResults() {
+export default function MovieResults() {
   const { currentGenreId, isDataLoading, error } = window.dataStore;
   let content = '';
   if (!currentGenreId) {
@@ -20,9 +19,9 @@ export default function movieResults() {
     } else {
       content = (
         <>
-          <showMoviesByGenre />
-          <showMoviesOfTheDay />
-          <showMoviesTop />
+          <ShowMoviesByGenre />
+          <ShowMoviesOfTheDay />
+          <ShowMoviesTop />
         </>
       );
     }
