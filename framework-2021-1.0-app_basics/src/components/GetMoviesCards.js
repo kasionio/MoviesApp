@@ -1,19 +1,17 @@
-import styles from '../style.css';
-import getmoviePoster from '../utils';
-
 /** @jsx createElement */
 /** @jsxFrag createFragment */
 import { createElement, createFragment } from '../framework/element';
+import styles from '../style.css';
+import getMoviePoster from '../utils';
 
-export default function getMoviesCards(movies) {
+export default function GetMoviesCards(movies) {
   return (
     <>
       <div class={styles['moviesTop']}>
         {movies.map(({ title, poster_path }) => (
           <p>
-            {' '}
             {title}
-            {getmoviePoster(poster_path)}
+            <img src={getMoviePoster(poster_path).src}></img>
           </p>
         ))}
       </div>

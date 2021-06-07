@@ -1,8 +1,9 @@
 /** @jsx createElement */
 /** @jsxFrag createFragment */
+import filter from '../data/movieData';
 import { createElement, createFragment } from '../framework/element';
 
-export default function showfilterByGenre() {
+export default function ShowfilterByGenre() {
   return (
     <>
       <div>

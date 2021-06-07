@@ -1,3 +1,4 @@
+import renderApp from '../framework/render';
 import { getMoviesTop, getMoviesOfTheDay, searchMoviesByGenre } from './movieDbAPI';
 
 export default function filter(currentGenreId) {
