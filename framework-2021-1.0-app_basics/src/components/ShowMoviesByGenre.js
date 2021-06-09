@@ -1,17 +1,16 @@
 /** @jsx createElement */
 /** @jsxFrag createFragment */
-import { createElement, createFragment } from '../framework/element';
+import { createElement, createFragment } from '../framework';
 import GetMoviesCards from './GetMoviesCards';
 
 export default function showMoviesByGenre() {
-  let currentGenreId = window.dataStore.currentGenreId;
-  return (
+    return (
     <>
       <h2>
-        Movies by genre{' '}
-        {window.dataStore.listOfGenres.find(genre => genre.id == currentGenreId).name} :
+        Movies by genre
+        {dataStorage.listOfGenres.find(genre => genre.id == currentGenreId).name} :
       </h2>
-      {GetMoviesCards(window.dataStore.moviesByGenre)}
+      {GetMoviesCards(moviesByGenre[currentGenreId])}
     </>
   );
 }

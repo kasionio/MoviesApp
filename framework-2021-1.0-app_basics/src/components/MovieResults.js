@@ -1,30 +1,31 @@
 /** @jsx createElement */
 /** @jsxFrag createFragment */
-import { createElement, createFragment } from '../framework/element';
+import { createElement, createFragment } from '../framework';
 import ShowMoviesByGenre from './ShowMoviesByGenre';
-import ShowMoviesOfTheDay from './ShowMoviesOfTheDay';
-import ShowMoviesTop from './ShowMoviesTop';
+/* import ShowMoviesOfTheDay from './ShowMoviesOfTheDay';
+import ShowMoviesTop from './ShowMoviesTop'; */
 
-export default function MovieResults() {
-  const { currentGenreId, isDataLoading, error } = window.dataStore;
-  let content = '';
+
+export default function MovieResults({ currentGenreId, error, isLoading, movieData }) {
+
   if (!currentGenreId) {
-    content = 'Please, choose genre from the list';
-  } else {
-    if (isDataLoading) {
-      content = 'Loading...';
-    }
-    if (error !== null) {
-      content = error;
-    } else {
-      content = (
-        <>
-          <ShowMoviesByGenre />
-          <ShowMoviesOfTheDay />
-          <ShowMoviesTop />
-        </>
-      );
-    }
+    return <div>Please, choose genre from the list</div>;
+  } 
+
+  if (error) {
+    return <div>{error}</div>;
   }
-  return content ? <div>{content}</div> : '';
+
+  if (isLoading) {
+    return <div>Loading...</div>
+  } 
+
+  return (
+    <>
+        <ShowMoviesByGenre 
+        currentGenreId = {currentGenreId}
+        movieData = {movieData}
+        />
+    </>
+  )    
 }

@@ -1,6 +1,6 @@
 /** @jsx createElement */
 /** @jsxFrag createFragment */
-import { createElement, createFragment } from '../framework/element';
+import { createElement, createFragment } from '../framework';
 import GetMoviesCards from './GetMoviesCards';
 import { COMEDY_GENRE_ID, ACTION_GENRE_ID, DOCUMENTARY_GENRE_ID } from '../utils';
 

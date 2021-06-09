@@ -1,16 +1,19 @@
 /** @jsx createElement */
 /** @jsxFrag createFragment */
-import filter from '../data/movieData';
-import { createElement, createFragment } from '../framework/element';
+import { createElement, createFragment, useState } from '../framework';
+//import { getListOfGenres } from '../data/movieDbAPI';
 
-export default function ShowfilterByGenre() {
+export default function ShowfilterByGenre( {onChange} ) {
+  const [listOfGenres, setListOfGenres] = useState({});
+  setListOfGenres(genres);
   return (
     <>
       <div>
         <label For="genres">Search by genre:</label>
-        <select name="genres" onchange={e => filter(e.target.value)}>
+        <select name="genres" 
+        onChange={e => onChange(e.target.value)}>
           <option value="">--Please choose a genre--</option>
-          {window.dataStore.listOfGenres.map(({ id, name }) => (
+          {listOfGenres.map(({ id, name }) => (
             <>
               <option value={id}>{name}</option>
             </>
