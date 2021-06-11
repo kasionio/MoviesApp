@@ -1,8 +1,8 @@
-import { render } from './framework';
+import React from 'react';
+import { render } from 'react-dom';
+import styles from './style.css';
 import App from './components/App';
 
-if (module.hot) {
-  module.hot.accept();
-}
+window.styles = styles;
 
-render(App, document.getElementById('app-root'));
+render(<App />, document.getElementById('app-root'));

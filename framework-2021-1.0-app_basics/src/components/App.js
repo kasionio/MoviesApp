@@ -1,24 +1,26 @@
-/** @jsx createElement */
-/** @jsxFrag createFragment */
-import { createElement, createFragment } from '../framework';
-import { useMovies } from '../customHook';
-import ShowfilterByGenre from './ShowFilterByGenre';
-import MovieResults from './MovieResults';
+import React, { useState } from 'react';
+import FilterByGenre from './FilterByGenre';
+import MoviesTop from './MoviesTop';
+import MoviesOfTheDay from './MoviesOfTheDay';
+import styles from '../style.css';
 
 export default function App() {
-  const { currentGenreId, setCurrentGenreId, error, isLoading, movieData } = useMovies();
+  const [currentGenreId, setcurrentGenreId] = useState('');
+  const [listOfGenres, setListOfGenres] = useState([]);
+
   return (
     <>
-      <ShowfilterByGenre 
-        value = {currentGenreId}
-        onChange = {setCurrentGenreId}
+      <h1 className={styles.main_header}>Movies App</h1>
+      <FilterByGenre
+        onChange={setcurrentGenreId}
+        currentGenreId={currentGenreId}
+        listOfGenres={listOfGenres}
+        setListOfGenres={setListOfGenres}
       />
-      <MovieResults 
-        currentGenreId = {currentGenreId}
-        error = {error}
-        isLoading = {isLoading}
-        movieData = {movieData}
-      />
+
+      <MoviesTop />
+
+      <MoviesOfTheDay listOfGenres={listOfGenres} />
     </>
-  )
+  );
 }

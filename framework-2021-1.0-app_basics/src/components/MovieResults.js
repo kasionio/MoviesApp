@@ -1,10 +1,5 @@
-/** @jsx createElement */
-/** @jsxFrag createFragment */
-import { createElement, createFragment } from '../framework';
+/* import React, { useState } from 'react';
 import ShowMoviesByGenre from './ShowMoviesByGenre';
-/* import ShowMoviesOfTheDay from './ShowMoviesOfTheDay';
-import ShowMoviesTop from './ShowMoviesTop'; */
-
 
 export default function MovieResults({ currentGenreId, error, isLoading, movieData }) {
 
@@ -13,7 +8,7 @@ export default function MovieResults({ currentGenreId, error, isLoading, movieDa
   } 
 
   if (error) {
-    return <div>{error}</div>;
+    return <div>{typeof error === 'object'? error.toString() : error}</div>;
   }
 
   if (isLoading) {
@@ -22,10 +17,10 @@ export default function MovieResults({ currentGenreId, error, isLoading, movieDa
 
   return (
     <>
-        <ShowMoviesByGenre 
+        <Results 
         currentGenreId = {currentGenreId}
         movieData = {movieData}
         />
     </>
   )    
-}
+} */
