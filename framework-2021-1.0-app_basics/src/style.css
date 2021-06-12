@@ -5,6 +5,11 @@
   justify-content: flex-start;
 }
 
+.moviesTop img {
+  width: 160px;
+  height: 220px;
+}
+
 .moviesTop p {
   max-width: 160px;
   display: flex;

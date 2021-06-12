@@ -3,7 +3,7 @@ import { loadMoviesByYear } from '../data/movieDbAPI';
 import MoviesByYear from './MoviesByYear';
 import styles from '../style.css';
 
-export default function SearchByYear({ currentYear, onBlur }) {
+export default function SearchByYear({ currentYear, onInput }) {
   const [error, setError] = useState(null);
   const [movieData, setMovieData] = useState([]);
   const [isLoading, setIsLoading] = useState(null);
@@ -30,9 +30,11 @@ export default function SearchByYear({ currentYear, onBlur }) {
       <div>
         <h2 className={styles.header}>Movies by the year of release :</h2>
         <input
-          type="text"
+          type="number"
+          min="1890"
+          max="2022"
           defaultValue={currentYear}
-          onBlur={event => onBlur(event.target.value)}
+          onInput={event => onInput(event.target.value)}
         />
         <MoviesByYear
           movies={movieData}

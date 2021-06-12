@@ -21,7 +21,7 @@ export default function App() {
         setListOfGenres={setListOfGenres}
       />
 
-      <SearchByYear onBlur={setcurrentYear} currentYear={currentYear} />
+      <SearchByYear onInput={setcurrentYear} currentYear={currentYear} />
 
       <MoviesTop />
 
