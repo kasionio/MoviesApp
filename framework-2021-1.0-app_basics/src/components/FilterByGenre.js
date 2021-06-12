@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { getListOfGenresUrl } from '../data/movieDbAPI';
 import MoviesByGenre from './MoviesByGenre';
 import styles from '../style.css';
@@ -23,7 +23,7 @@ export default function FilterByGenre({ onChange, currentGenreId, listOfGenres, 
       </h2>
 
       <div>
-        <label htmlFor="genres">Search by genre:</label>
+        <label htmlFor="genres">Search by genre: </label>
         <select name="genres" onChange={event => onChange(event.target.value)}>
           <option value="">--Please choose a genre--</option>
           {listOfGenres

@@ -9,18 +9,27 @@ export default function MoviesTop() {
   const [moviesTop, setMoviesTop] = useState([]);
 
   useEffect(() => {
+    setIsLoading(true);
     loadMoviesTop()
       .then(data => {
         const { message, code } = data;
 
         if (code !== '200' && message) throw Error(message);
 
-        setError(null);
+        setError(error);
         setMoviesTop(data.results);
       })
       .catch(setError)
       .finally(() => setIsLoading(false));
   }, []);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>{typeof error === 'object' ? error.toString() : error}</div>;
+  }
 
   return (
     <>

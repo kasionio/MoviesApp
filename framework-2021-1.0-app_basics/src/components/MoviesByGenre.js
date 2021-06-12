@@ -9,19 +9,29 @@ export default function MoviesByGenre({ currentGenreId }) {
 
   useEffect(() => {
     if (currentGenreId) {
+      setIsLoading(true);
       loadMoviesByGenre(currentGenreId)
         .then(data => {
           const { message, code } = data;
 
           if (code !== '200' && message) throw Error(message);
 
-          setError(null);
+          setError(error);
           setMovieData(data.results);
         })
         .catch(setError)
         .finally(() => setIsLoading(false));
     }
   }, [currentGenreId]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>{typeof error === 'object' ? error.toString() : error}</div>;
+  }
+
   return (
     <>
       <GetMoviesCards movies={movieData} error={error} />

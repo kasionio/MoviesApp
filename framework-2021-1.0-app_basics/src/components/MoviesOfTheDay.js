@@ -8,6 +8,7 @@ export default function MoviesOfTheDay({ listOfGenres }) {
   const [moviesOfTheDay, setMoviesOfTheDay] = useState([]);
 
   useEffect(() => {
+    setIsLoading(true);
     loadMoviesOfTheDay()
       .then(data => {
         const { message, code } = data;
@@ -34,10 +35,17 @@ export default function MoviesOfTheDay({ listOfGenres }) {
     ),
   );
 
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>{typeof error === 'object' ? error.toString() : error}</div>;
+  }
+
   return (
     <>
-      <h2 className={styles.header}>Movies of the day:</h2>
-
+      <h2 className={styles.header}>Movies of the day by Genres:</h2>
       {listOfMovies}
     </>
   );
