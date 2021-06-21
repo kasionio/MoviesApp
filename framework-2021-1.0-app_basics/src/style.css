@@ -1,0 +1,46 @@
+.moviesTop {
+  margin: auto;
+  display: inline-flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
+.moviesTop img {
+  width: 160px;
+  height: 220px;
+}
+
+.moviesTop p {
+  max-width: 160px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 0.5em;
+}
+
+body {
+  background-color: bisque;
+  max-width: 1200px;
+  text-align: center;
+  margin: auto;
+}
+
+.header {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  border-top: #fff 5px solid;
+}
+
+.main_header {
+  padding: 5px;
+  font-size: 24px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  letter-spacing: 15;
+  color: #fff;
+  border: dashed 5px #fff;
+  text-transform: uppercase;
+}
+
+.vote {
+  color: #fff;
+  background-color: green;
+}
