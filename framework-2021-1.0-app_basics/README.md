@@ -2,6 +2,8 @@
 
 This app is a part of Kottans Forntend course. The app based on [Themoviedb.org API](https://developers.themoviedb.org).
 
+[Demo](https://kasionio.github.io/MoviesApp/)
+
 ## Key features:
 
 1. Filter movies by the ratings (TOP-100)
