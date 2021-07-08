@@ -1,16 +1,8 @@
 import React, { useEffect } from 'react';
-import { getListOfGenresUrl } from '../data/movieDbAPI';
 import MoviesByGenre from './MoviesByGenre';
 import styles from '../style.css';
 
-export default function FilterByGenre({ onChange, currentGenreId, listOfGenres, setListOfGenres }) {
-  useEffect(() => {
-    fetch(getListOfGenresUrl())
-      .then(response => response.json())
-      .then(data => {
-        setListOfGenres(data.genres);
-      });
-  }, []);
+export default function FilterByGenre({ onChange, currentGenreId, listOfGenres }) {
 
   return (
     <>

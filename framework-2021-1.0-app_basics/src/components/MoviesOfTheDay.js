@@ -20,12 +20,12 @@ export default function MoviesOfTheDay({ listOfGenres }) {
       })
       .catch(setError)
       .finally(() => setIsLoading(false));
-  }, []);
+  }, [listOfGenres]);
 
   let listOfMovies = listOfGenres.map(genre =>
     moviesOfTheDay.filter(movie => movie.genre_ids.includes(genre.id)).length !== 0 ? (
       <div key={genre.id}>
-        <h4> {genre.name}</h4>
+        <h4 className={styles.header}> {genre.name}</h4>
         <GetMoviesCards
           movies={moviesOfTheDay.filter(movie => movie.genre_ids.includes(genre.id))}
         />

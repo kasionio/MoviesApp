@@ -29,13 +29,15 @@ export default function SearchByYear({ currentYear, onInput }) {
     <>
       <div>
         <h2 className={styles.header}>Movies by the year of release :</h2>
-        <input
-          type="number"
-          min="1890"
-          max="2022"
-          defaultValue={currentYear}
-          onInput={event => onInput(event.target.value)}
-        />
+        <div>
+          <input
+            type="number"
+            min="1890"
+            max="2022"
+            defaultValue={currentYear}
+            onInput={event => onInput(event.target.value)}
+          />
+        </div>
         <MoviesByYear
           movies={movieData}
           error={error}

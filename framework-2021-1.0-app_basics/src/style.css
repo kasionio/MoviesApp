@@ -1,3 +1,35 @@
+body {
+  background-color: bisque;
+  max-width: 1200px;
+  margin: auto;
+  padding: 0;
+  text-align: center;
+}
+
+.navBar {
+  width: 100%;
+  display: flex;
+  margin: 0;
+  padding: 0;
+  justify-content: space-around;
+  list-style: none;
+}
+
+.navBar :hover {
+  background-color: red;
+} 
+
+.navBar a {
+  width: 100%;
+  color: #fff;
+  text-decoration: none;
+  font-size: 24px;
+  height: 40px;
+  border: 2px solid #fff;
+
+}
+
+
 .moviesTop {
   margin: auto;
   display: inline-flex;
@@ -18,16 +50,8 @@
   padding: 0.5em;
 }
 
-body {
-  background-color: bisque;
-  max-width: 1200px;
-  text-align: center;
-  margin: auto;
-}
-
 .header {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  border-top: #fff 5px solid;
 }
 
 .main_header {
@@ -44,3 +68,9 @@ body {
   color: #fff;
   background-color: green;
 }
+
+@media (max-width: 45em) { 
+  .navBar {
+    flex-direction: column;
+  }
+ }
