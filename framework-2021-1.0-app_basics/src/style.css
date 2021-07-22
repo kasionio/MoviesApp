@@ -6,6 +6,11 @@ body {
   text-align: center;
 }
 
+.img {
+  width: 185px;
+  height: 278px;
+}
+
 .navBar {
   width: 100%;
   display: flex;
@@ -16,8 +21,8 @@ body {
 }
 
 .navBar :hover {
-  background-color: red;
-} 
+  background-color: rgb(255, 137, 227);
+}
 
 .navBar a {
   width: 100%;
@@ -26,28 +31,18 @@ body {
   font-size: 24px;
   height: 40px;
   border: 2px solid #fff;
-
+  background-color: rgb(216, 29, 172);
 }
-
 
 .moviesTop {
-  margin: auto;
+  margin: 0;
   display: inline-flex;
   flex-wrap: wrap;
-  justify-content: flex-start;
+  justify-content: center;
 }
 
-.moviesTop img {
-  width: 160px;
-  height: 220px;
-}
-
-.moviesTop p {
-  max-width: 160px;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  padding: 0.5em;
+.moviesTop a {
+  text-decoration: none;
 }
 
 .header {
@@ -69,8 +64,37 @@ body {
   background-color: green;
 }
 
-@media (max-width: 45em) { 
+.movieCard {
+  max-width: 185px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1em;
+}
+
+.name {
+  color: rgb(61, 61, 255);
+  text-decoration: none;
+}
+
+.description {
+  margin: auto;
+  display: flex;
+  margin: 2em;
+  max-width: 800px;
+}
+
+.description_text {
+  margin-left: 2em;
+  text-align: left;
+}
+
+@media (max-width: 45em) {
   .navBar {
     flex-direction: column;
   }
- }
+
+  .description {
+    flex-direction: column;
+  }
+}

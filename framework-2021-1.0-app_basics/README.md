@@ -15,4 +15,3 @@ This app is a part of Kottans Forntend course. The app based on [Themoviedb.org 
 1. Filter movies by the ratings (TOP-100)
 2. Search movies by the year of release and genre
 3. Recommend movies of the day from every genre
-

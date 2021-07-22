@@ -1,11 +1,15 @@
 const dataStorage = {};
 
-export function getMoviesByGenreUrl(genreId) {
-  return `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.MOVIEDB_API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=${genreId}&with_watch_monetization_types=flatrate`;
-}
-
 export function getListOfGenresUrl() {
   return `https://api.themoviedb.org/3/genre/movie/list?api_key=${process.env.MOVIEDB_API_KEY}&language=en-US`;
+}
+
+export function getMovieDataUrl(id) {
+  return `https://api.themoviedb.org/3/movie/${id}?api_key=${process.env.MOVIEDB_API_KEY}&language=en-US`;
+}
+
+function getMoviesByGenreUrl(genreId) {
+  return `https://api.themoviedb.org/3/discover/movie?api_key=${process.env.MOVIEDB_API_KEY}&language=en-US&sort_by=popularity.desc&include_adult=false&include_video=false&page=1&with_genres=${genreId}&with_watch_monetization_types=flatrate`;
 }
 
 function getMoviesTopUrl() {

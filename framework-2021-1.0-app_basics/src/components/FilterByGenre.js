@@ -3,7 +3,6 @@ import MoviesByGenre from './MoviesByGenre';
 import styles from '../style.css';
 
 export default function FilterByGenre({ onChange, currentGenreId, listOfGenres }) {
-
   return (
     <>
       <h2 className={styles.header}>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import GetMoviesCards from './GetMoviesCards';
 import { loadMoviesTop } from '../data/movieDbAPI';
 import styles from '../style.css';

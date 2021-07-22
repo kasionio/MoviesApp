@@ -7,12 +7,14 @@ export default function GetMoviesCards({ movies }) {
     return (
       <>
         <div className={styles.moviesTop}>
-          {movies.map(({ title, poster_path, vote_average }) => (
+          {movies.map(({ title, poster_path, vote_average, overview, id }) => (
             <GetMovieCardItem
               key={title}
               title={title}
               poster_path={poster_path}
               vote_average={vote_average}
+              overview={overview}
+              id={id}
             />
           ))}
         </div>
